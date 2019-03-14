@@ -22,10 +22,6 @@ class App extends React.Component {
 
         if (city) {
 
-            // const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
-            // const data = await api_call.json()
-            // console.log(data);
-
             fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
                 .then(res => res.json())
                 .then((data) => {
@@ -35,7 +31,7 @@ class App extends React.Component {
                             city: undefined,
                             country: undefined,
                             sunrise: undefined,
-                            sunset: undefined,                            
+                            sunset: undefined,
                             error: 'Такого города не существует!'
                         });
                     } else {
