@@ -22,31 +22,47 @@ class App extends React.Component {
 
         if (city) {
 
-            const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
-            const data = await api_call.json()
+            // const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
+            // const data = await api_call.json()
+            // console.log(data);
 
-            let sunset = data.sys.sunset;
-            let date = new Date();
-            date.setTime(sunset * 1000);
-            let sunset_date = date.getUTCHours() + ':' + date.getUTCMinutes() + ':' + date.getUTCSeconds();
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
+                .then(res => res.json())
+                .then((data) => {
+                    if (data.cod === '404') {
+                        this.setState({
+                            temp: undefined,
+                            city: undefined,
+                            country: undefined,
+                            sunrise: undefined,
+                            sunset: undefined,                            
+                            error: 'Такого города не существует!'
+                        });
+                    } else {
 
-            let sunrise = data.sys.sunrise;
-            let date2 = new Date();
-            date2.setTime(sunrise * 1000);
-            let sunrise_date = date2.getUTCHours() + ':' + date2.getUTCMinutes() + ':' + date2.getUTCSeconds();
+                        let sunset = data.sys.sunset;
+                        let date = new Date();
+                        date.setTime(sunset * 1000);
+                        let sunset_date = date.getUTCHours() + ':' + date.getUTCMinutes() + ':' + date.getUTCSeconds();
 
-            this.setState({
-                temp: data.main.temp,
-                city: data.name,
-                country: data.sys.country,
-                sunrise: sunrise_date,
-                sunset: sunset_date,
-                error: undefined
-            });
+                        let sunrise = data.sys.sunrise;
+                        let date2 = new Date();
+                        date2.setTime(sunrise * 1000);
+                        let sunrise_date = date2.getUTCHours() + ':' + date2.getUTCMinutes() + ':' + date2.getUTCSeconds();
 
+                        this.setState({
+                            temp: data.main.temp,
+                            city: data.name,
+                            country: data.sys.country,
+                            sunrise: sunrise_date,
+                            sunset: sunset_date,
+                            error: undefined
+                        });
+                    }
+                })
         } else {
             this.setState({
-                error: 'Введите название города на английском языке'
+                error: 'Введите название города на английском языке!'
             });
         }
     }

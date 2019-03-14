@@ -42,8 +42,9 @@ body {
 
 .title-container__subtitle {
   font-style: italic;
+  margin-top: 30px;
   font-size: 25px;
-  font-weight: 100;
+  font-weight: 600;
   letter-spacing: 1px;
   line-height: 1.5;
   font-family: "Merriweather", serif;
